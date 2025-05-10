@@ -1,0 +1,11 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-feed {
+  max-width: 600px;
+  width: 100%;
+  padding: 20px;
+}

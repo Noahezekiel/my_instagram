@@ -1,0 +1,14 @@
+.post-details {
+  display: flex;
+  padding: 20px;
+}
+
+.image-section img {
+  width: 300px;
+  height: auto;
+  border-radius: 10px;
+}
+
+.info-section {
+  margin-left: 20px;
+}
