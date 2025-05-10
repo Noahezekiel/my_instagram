@@ -1,0 +1,62 @@
+type User @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
+  id: ID!
+  username: String! 
+  email: String!
+  avatar: String
+  bio: String
+  isPrivate: Boolean
+  posts: [Post] @hasMany(indexName: "byUser", fields: ["id"])
+  followers: [Follow] @hasMany(indexName: "followersByUser", fields: ["id"])
+  following: [Follow] @hasMany(indexName: "followingByUser", fields: ["id"])
+  messages: [Message] @hasMany(indexName: "bySender", fields: ["id"])
+}
+
+type Post @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
+  id: ID!
+  content: String
+  mediaUrl: String
+  mediaType: String
+  createdAt: AWSDateTime
+  userID: ID! @index(name: "byUser")
+  user: User @belongsTo(fields: ["userID"])
+  comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
+  likes: [Like] @hasMany(indexName: "byPost", fields: ["id"])
+  tags: [String]
+  location: String
+}
+
+type Comment @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
+  id: ID!
+  content: String!
+  createdAt: AWSDateTime
+  postID: ID! @index(name: "byPost")
+  userID: ID!
+  post: Post @belongsTo(fields: ["postID"])
+  user: User @belongsTo(fields: ["userID"])
+}
+
+type Like @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
+  id: ID!
+  postID: ID! @index(name: "byPost")
+  userID: ID!
+  post: Post @belongsTo(fields: ["postID"])
+  user: User @belongsTo(fields: ["userID"])
+}
+
+type Follow @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
+  id: ID!
+  followerID: ID! @index(name: "followingByUser")
+  followingID: ID! @index(name: "followersByUser")
+  follower: User @belongsTo(fields: ["followerID"])
+  following: User @belongsTo(fields: ["followingID"])
+}
+
+type Message @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
+  id: ID!
+  content: String!
+  senderID: ID! @index(name: "bySender")
+  receiverID: ID!
+  createdAt: AWSDateTime
+  sender: User @belongsTo(fields: ["senderID"])
+  receiver: User @belongsTo(fields: ["receiverID"])
+}
