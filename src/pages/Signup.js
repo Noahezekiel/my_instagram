@@ -15,14 +15,45 @@ export default function Signup() {
   };
 
   return (
-    <div className="signup-container">
-      <form className="signup-form" onSubmit={handleSubmit}>
-        <h2>Sign Up</h2>
-        <input name="username" placeholder="Username" onChange={handleChange} />
-        <input name="email" placeholder="Email" onChange={handleChange} />
-        <input name="password" type="password" placeholder="Password" onChange={handleChange} />
-        <button type="submit">Sign Up</button>
-      </form>
+    <div className="auth-container">
+      <div className="auth-box">
+        <h1 className="auth-logo">MyInstagram</h1>
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <input
+            name="username"
+            placeholder="Username"
+            value={form.username}
+            onChange={handleChange}
+            required
+          />
+          <input
+            name="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={handleChange}
+            required
+          />
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={handleChange}
+            required
+          />
+          <button type="submit">Sign Up</button>
+        </form>
+        <div className="auth-divider">
+          <div className="line"></div>
+          <div className="or">OR</div>
+          <div className="line"></div>
+        </div>
+        <div className="auth-footer">
+          <p>
+            Have an account? <a href="/login">Log in</a>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
