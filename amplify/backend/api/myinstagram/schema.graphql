@@ -1,62 +1,146 @@
+# User model
 type User @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
   id: ID!
-  username: String! 
-  email: String!
+  username: String!
+  email: AWSEmail!
   avatar: String
   bio: String
+  tags: [String]
+  socialLinks: [String]
   isPrivate: Boolean
+  createdAt: AWSDateTime
   posts: [Post] @hasMany(indexName: "byUser", fields: ["id"])
+  stories: [Story] @hasMany(indexName: "byUser", fields: ["id"])
   followers: [Follow] @hasMany(indexName: "followersByUser", fields: ["id"])
   following: [Follow] @hasMany(indexName: "followingByUser", fields: ["id"])
-  messages: [Message] @hasMany(indexName: "bySender", fields: ["id"])
+  bookmarks: [Bookmark] @hasMany(indexName: "byUser", fields: ["id"])
+  notifications: [Notification] @hasMany(indexName: "byReceiver", fields: ["id"])
+  groups: [GroupMember] @hasMany(indexName: "byUser", fields: ["id"])
+  conversations: [ConversationParticipant] @hasMany(indexName: "byUser", fields: ["id"])
 }
 
+# Post model
 type Post @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
   id: ID!
-  content: String
-  mediaUrl: String
-  mediaType: String
-  createdAt: AWSDateTime
   userID: ID! @index(name: "byUser")
-  user: User @belongsTo(fields: ["userID"])
+  caption: String
+  mediaType: String # image, video, audio, doc
+  mediaURL: String
+  location: String
+  tags: [String]
+  hashtags: [String]
+  mentions: [String]
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
   comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
   likes: [Like] @hasMany(indexName: "byPost", fields: ["id"])
-  tags: [String]
-  location: String
+  shares: [Share] @hasMany(indexName: "byPost", fields: ["id"])
 }
 
+# Comment model
 type Comment @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
   id: ID!
-  content: String!
-  createdAt: AWSDateTime
   postID: ID! @index(name: "byPost")
   userID: ID!
-  post: Post @belongsTo(fields: ["postID"])
-  user: User @belongsTo(fields: ["userID"])
+  content: String
+  mediaURL: String
+  createdAt: AWSDateTime
 }
 
+# Like model
 type Like @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
   id: ID!
   postID: ID! @index(name: "byPost")
   userID: ID!
-  post: Post @belongsTo(fields: ["postID"])
-  user: User @belongsTo(fields: ["userID"])
-}
-
-type Follow @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
-  id: ID!
-  followerID: ID! @index(name: "followingByUser")
-  followingID: ID! @index(name: "followersByUser")
-  follower: User @belongsTo(fields: ["followerID"])
-  following: User @belongsTo(fields: ["followingID"])
-}
-
-type Message @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
-  id: ID!
-  content: String!
-  senderID: ID! @index(name: "bySender")
-  receiverID: ID!
   createdAt: AWSDateTime
-  sender: User @belongsTo(fields: ["senderID"])
-  receiver: User @belongsTo(fields: ["receiverID"])
+}
+
+# Share model
+type Share @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
+  id: ID!
+  postID: ID! @index(name: "byPost")
+  userID: ID!
+  comment: String
+  createdAt: AWSDateTime
+}
+
+# Follow model
+type Follow @model {
+  id: ID!
+  followerID: ID! @index(name: "followersByUser")
+  followingID: ID! @index(name: "followingByUser")
+  createdAt: AWSDateTime
+}
+
+# Story model
+type Story @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
+  id: ID!
+  userID: ID! @index(name: "byUser")
+  mediaURL: String!
+  expiresAt: AWSDateTime
+  createdAt: AWSDateTime
+}
+
+# Notification model
+type Notification @model {
+  id: ID!
+  type: String # like, comment, follow, etc.
+  receiverID: ID! @index(name: "byReceiver")
+  actorID: ID!
+  postID: ID
+  message: String
+  read: Boolean
+  createdAt: AWSDateTime
+}
+
+# Bookmark model
+type Bookmark @model {
+  id: ID!
+  userID: ID! @index(name: "byUser")
+  postID: ID!
+  createdAt: AWSDateTime
+}
+
+# Group model
+type Group @model {
+  id: ID!
+  name: String!
+  description: String
+  avatar: String
+  creatorID: ID!
+  createdAt: AWSDateTime
+  members: [GroupMember] @hasMany(indexName: "byGroup", fields: ["id"])
+  messages: [Message] @hasMany(indexName: "byGroup", fields: ["id"])
+}
+
+type GroupMember @model {
+  id: ID!
+  groupID: ID! @index(name: "byGroup")
+  userID: ID! @index(name: "byUser")
+  joinedAt: AWSDateTime
+}
+
+# Conversation and Messaging
+type Conversation @model {
+  id: ID!
+  title: String
+  participants: [ConversationParticipant] @hasMany(indexName: "byConversation", fields: ["id"])
+  messages: [Message] @hasMany(indexName: "byConversation", fields: ["id"])
+}
+
+type ConversationParticipant @model {
+  id: ID!
+  conversationID: ID! @index(name: "byConversation")
+  userID: ID! @index(name: "byUser")
+  joinedAt: AWSDateTime
+}
+
+type Message @model {
+  id: ID!
+  conversationID: ID! @index(name: "byConversation")
+  groupID: ID @index(name: "byGroup")
+  senderID: ID! @index(name: "bySender")
+  content: String
+  mediaURL: String
+  createdAt: AWSDateTime
 }
