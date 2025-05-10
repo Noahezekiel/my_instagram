@@ -1,4 +1,3 @@
-# User model
 type User @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
   id: ID!
   username: String!
@@ -8,7 +7,7 @@ type User @model @auth(rules: [{ allow: owner }, { allow: public, operations: [r
   tags: [String]
   socialLinks: [String]
   isPrivate: Boolean
-  createdAt: AWSDateTime
+  createdAt: AWSDateTime!
   posts: [Post] @hasMany(indexName: "byUser", fields: ["id"])
   stories: [Story] @hasMany(indexName: "byUser", fields: ["id"])
   followers: [Follow] @hasMany(indexName: "followersByUser", fields: ["id"])
@@ -19,128 +18,118 @@ type User @model @auth(rules: [{ allow: owner }, { allow: public, operations: [r
   conversations: [ConversationParticipant] @hasMany(indexName: "byUser", fields: ["id"])
 }
 
-# Post model
 type Post @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
   id: ID!
   userID: ID! @index(name: "byUser")
   caption: String
-  mediaType: String # image, video, audio, doc
+  mediaType: String
   mediaURL: String
   location: String
   tags: [String]
   hashtags: [String]
   mentions: [String]
-  createdAt: AWSDateTime
+  createdAt: AWSDateTime!
   updatedAt: AWSDateTime
   comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
   likes: [Like] @hasMany(indexName: "byPost", fields: ["id"])
   shares: [Share] @hasMany(indexName: "byPost", fields: ["id"])
 }
 
-# Comment model
 type Comment @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
   id: ID!
   postID: ID! @index(name: "byPost")
   userID: ID!
   content: String
   mediaURL: String
-  createdAt: AWSDateTime
+  createdAt: AWSDateTime!
 }
 
-# Like model
 type Like @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
   id: ID!
   postID: ID! @index(name: "byPost")
   userID: ID!
-  createdAt: AWSDateTime
+  createdAt: AWSDateTime!
 }
 
-# Share model
 type Share @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
   id: ID!
   postID: ID! @index(name: "byPost")
   userID: ID!
   comment: String
-  createdAt: AWSDateTime
+  createdAt: AWSDateTime!
 }
 
-# Follow model
-type Follow @model {
+type Follow @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
   id: ID!
   followerID: ID! @index(name: "followersByUser")
   followingID: ID! @index(name: "followingByUser")
-  createdAt: AWSDateTime
+  createdAt: AWSDateTime!
 }
 
-# Story model
 type Story @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
   id: ID!
   userID: ID! @index(name: "byUser")
   mediaURL: String!
   expiresAt: AWSDateTime
-  createdAt: AWSDateTime
+  createdAt: AWSDateTime!
 }
 
-# Notification model
-type Notification @model {
+type Notification @model @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }]) {
   id: ID!
-  type: String # like, comment, follow, etc.
+  type: String
   receiverID: ID! @index(name: "byReceiver")
   actorID: ID!
   postID: ID
   message: String
   read: Boolean
-  createdAt: AWSDateTime
+  createdAt: AWSDateTime!
 }
 
-# Bookmark model
-type Bookmark @model {
+type Bookmark @model @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }]) {
   id: ID!
   userID: ID! @index(name: "byUser")
   postID: ID!
-  createdAt: AWSDateTime
+  createdAt: AWSDateTime!
 }
 
-# Group model
-type Group @model {
+type Group @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
   id: ID!
   name: String!
   description: String
   avatar: String
   creatorID: ID!
-  createdAt: AWSDateTime
+  createdAt: AWSDateTime!
   members: [GroupMember] @hasMany(indexName: "byGroup", fields: ["id"])
   messages: [Message] @hasMany(indexName: "byGroup", fields: ["id"])
 }
 
-type GroupMember @model {
+type GroupMember @model @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }]) {
   id: ID!
   groupID: ID! @index(name: "byGroup")
   userID: ID! @index(name: "byUser")
-  joinedAt: AWSDateTime
+  joinedAt: AWSDateTime!
 }
 
-# Conversation and Messaging
-type Conversation @model {
+type Conversation @model @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }]) {
   id: ID!
   title: String
   participants: [ConversationParticipant] @hasMany(indexName: "byConversation", fields: ["id"])
   messages: [Message] @hasMany(indexName: "byConversation", fields: ["id"])
 }
 
-type ConversationParticipant @model {
+type ConversationParticipant @model @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }]) {
   id: ID!
   conversationID: ID! @index(name: "byConversation")
   userID: ID! @index(name: "byUser")
-  joinedAt: AWSDateTime
+  joinedAt: AWSDateTime!
 }
 
-type Message @model {
+type Message @model @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }]) {
   id: ID!
   conversationID: ID! @index(name: "byConversation")
   groupID: ID @index(name: "byGroup")
   senderID: ID! @index(name: "bySender")
   content: String
   mediaURL: String
-  createdAt: AWSDateTime
+  createdAt: AWSDateTime!
 }
