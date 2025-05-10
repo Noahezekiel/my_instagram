@@ -1,14 +1,72 @@
-.signup-container {
+.auth-container {
   display: flex;
   justify-content: center;
-  margin-top: 100px;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fafafa;
 }
 
-.signup-form {
+.auth-box {
+  width: 350px;
+  padding: 40px;
+  background-color: #fff;
+  border: 1px solid #dbdbdb;
+  text-align: center;
+}
+
+.auth-logo {
+  font-family: 'Grand Hotel', cursive;
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #262626;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  background-color: #fafafa;
+}
+
+.auth-form button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #0095f6;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.auth-divider {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 24px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.auth-divider .line {
+  flex: 1;
+  height: 1px;
+  background-color: #dbdbdb;
+}
+
+.auth-divider .or {
+  margin: 0 10px;
+  color: #8e8e8e;
+  font-weight: bold;
+}
+
+.auth-footer {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.auth-footer a {
+  color: #0095f6;
+  text-decoration: none;
+  font-weight: bold;
 }

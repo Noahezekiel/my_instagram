@@ -1,36 +1,72 @@
-.login-page {
+.auth-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #fafafa;
 }
 
-.login-form {
-  background-color: white;
+.auth-box {
+  width: 350px;
   padding: 40px;
+  background-color: #fff;
   border: 1px solid #dbdbdb;
   text-align: center;
 }
 
-.login-form h2 {
+.auth-logo {
+  font-family: 'Grand Hotel', cursive;
+  font-size: 36px;
   margin-bottom: 20px;
+  color: #262626;
 }
 
-.login-form input {
+.auth-form input {
   width: 100%;
-  margin: 10px 0;
   padding: 10px;
+  margin: 6px 0;
   border: 1px solid #dbdbdb;
-  border-radius: 5px;
+  border-radius: 4px;
+  background-color: #fafafa;
 }
 
-.login-form button {
+.auth-form button {
   width: 100%;
   padding: 10px;
-  background-color: #3897f0;
-  color: white;
+  margin-top: 10px;
+  background-color: #0095f6;
+  color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
+  font-weight: bold;
   cursor: pointer;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.auth-divider .line {
+  flex: 1;
+  height: 1px;
+  background-color: #dbdbdb;
+}
+
+.auth-divider .or {
+  margin: 0 10px;
+  color: #8e8e8e;
+  font-weight: bold;
+}
+
+.auth-footer {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.auth-footer a {
+  color: #0095f6;
+  text-decoration: none;
+  font-weight: bold;
 }
