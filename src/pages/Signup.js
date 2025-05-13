@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Signup.css';
 
 export default function Signup() {
-  const [form, setForm] = useState({ username: '', email: '', password: '' });
+  const [form, setForm] = useState({
+    fullname: '',
+    username: '',
+    email: '',
+    password: '',
+  });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -12,6 +20,7 @@ export default function Signup() {
     e.preventDefault();
     console.log('Signup submitted', form);
     // Add signup logic here
+    navigate('/home'); // Redirect to Home page
   };
 
   return (
@@ -19,6 +28,13 @@ export default function Signup() {
       <div className="auth-box">
         <h1 className="auth-logo">MyInstagram</h1>
         <form className="auth-form" onSubmit={handleSubmit}>
+          <input
+            name="fullname"
+            placeholder="Full Name"
+            value={form.fullname}
+            onChange={handleChange}
+            required
+          />
           <input
             name="username"
             placeholder="Username"

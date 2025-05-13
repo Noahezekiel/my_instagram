@@ -1,21 +1,21 @@
-// App.js
+// src/App.js
 import React from 'react';
-import './App.css';
-import { Amplify } from 'aws-amplify';
-import awsExports from './aws-exports';
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
-import Home from './pages/Home';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Home from './pages/Home'; 
 
-Amplify.configure(awsExports);
-
-function App({ signOut, user }) {
+function App() {
   return (
-    <div className="App">
-      <Home />
-      <button onClick={signOut}>Sign Out</button>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/home" element={<Home />} />
+      </Routes>
+    </Router>
   );
 }
 
-export default withAuthenticator(App);
+export default App;
