@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './Home.css';
-import Sidenav from './Navbar/SideNavbar';
-import Timeline from './timeline/Timeline';
-import PostPage from './timeline/PostPage/PostPage';
-import ProfilePage from './timeline/ProfilePage/ProfilePage';
-import SearchBar from './SearchBar/SearchBar';
-import Suggestions from './timeline/Suggestions';
+import Sidenav from '../components/Navbar/Side_Navbar';
+import Timeline from '../components/Timeline/Timeline';
+import PostPage from '../components/Timeline/PostPage/Post';
+import ProfilePage from '../components/Timeline/ProfilePage/Profile';
+import SearchBar from '../components/SearchBar/SearchBar';
+import Suggestions from '../components/Suggestions/Suggestions';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 function Homepage({ currentUserId }) {
