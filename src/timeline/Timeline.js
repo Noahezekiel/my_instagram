@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Timeline.css';
-import Post from './PostPage/Post';
-import PostPage from './PostPage/Post';
+import Post from './posts/Post';
+import PostPage from './PostPage/PostPage';
 import { generateClient } from '@aws-amplify/api';
-import { listPosts, getUser } from '../../graphql/queries';
+import { listPosts, getUser } from '../graphql/queries';
 import { getUrl } from '@aws-amplify/storage';
 import { fetchUserAttributes } from '@aws-amplify/auth';
 

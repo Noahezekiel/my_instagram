@@ -4,7 +4,7 @@ import { generateClient } from '@aws-amplify/api';
 import { updateUser } from '../../graphql/mutations';
 import { getUser } from '../../graphql/queries';
 import { fetchUserAttributes } from '@aws-amplify/auth';
-import './Profile.css';
+import './ProfilePage.css';
 import friendSuggests from '../../data/friendSuggests'; // Imported correctly
 import { useParams } from 'react-router-dom';
 

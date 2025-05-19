@@ -3,7 +3,7 @@ import { uploadData, getUrl } from '@aws-amplify/storage';
 import { generateClient } from '@aws-amplify/api';
 import { createPost } from '../../graphql/mutations';
 import { fetchUserAttributes } from '@aws-amplify/auth';
-import './Post.css';
+import './PostPage.css';
 import EmojiPicker from 'emoji-picker-react'; // Install via `npm install emoji-picker-react`
 
 function PostPage({ onPostCreation, isCompact = false }) {

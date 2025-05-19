@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import './Home.css';
-import Sidenav from '../components/Navbar/Side_Navbar';
-import Timeline from '../components/Timeline/Timeline';
-import PostPage from '../components/Timeline/PostPage/Post';
-import Profile from '../components/Timeline/ProfilePage/Profile'; // ✅ Only once
-import SearchBar from '../components/SearchBar/SearchBar';
-import Suggestions from '../components/Suggestions/Suggestions';
+import './Homepage.css';
+import Sidenav from './navigation/Sidenav';
+import Timeline from './timeline/Timeline';
+import PostPage from './timeline/PostPage/PostPage';
+import ProfilePage from './timeline/ProfilePage/ProfilePage';
+import SearchBar from './SearchBar/SearchBar';
+import Suggestions from './timeline/Suggestions';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 function Homepage({ currentUserId }) {
   const [searchResults, setSearchResults] = useState(null);
+
+  console.log('Homepage currentUserId:', currentUserId); // Debug
 
   const handleSearchResults = (results) => {
     setSearchResults(results);
@@ -40,7 +42,7 @@ function Homepage({ currentUserId }) {
               <Routes>
                 <Route path="/" element={<Timeline />} />
                 <Route path="/create-post" element={<PostPage />} />
-                <Route path="/profile/:userId" element={<Profile />} /> {/* ✅ fixed */}
+                <Route path="/profile/:userId" element={<ProfilePage />} />
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
             </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import './Side_Navbar.css';
+import './Sidenav.css';
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import ExploreIcon from '@mui/icons-material/Explore';
